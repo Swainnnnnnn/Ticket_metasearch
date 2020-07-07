@@ -28,7 +28,7 @@ public class ReqArrayController {
                                                  @RequestParam(value = "arrivalCityName") String arrivalCityName) throws SQLException {
         String querySQL = "SELECT * FROM dwd_scheduledflight where departureDate = '" + departureDate +
                 "' and departureCityName = '" + departureCityName +
-                "' and arrivalCityName = '" + arrivalCityName + "'order by departureTime;";
+                "' and arrivalCityName = '" + arrivalCityName + "'order by arrivalTime asc;";
         System.out.println(departureDate+" "+departureCityName+" "+arrivalCityName);
         return (List<Map<String, Object>>) jdbcTemplate.queryForList(querySQL);
     }
@@ -42,7 +42,7 @@ public class ReqArrayController {
                                                  @RequestParam(value = "arrivalCityName") String arrivalCityName) throws SQLException {
         String querySQL = "SELECT * FROM dwd_scheduledflight where departureDate = '" + departureDate +
                 "' and departureCityName = '" + departureCityName +
-                "' and arrivalCityName = '" + arrivalCityName + "'order by price;";
+                "' and arrivalCityName = '" + arrivalCityName + "'order by price asc;";
         // dump without feature map
 //        String[] model_dump = booster.getModelDump(null, false);
 //// dump with feature map
@@ -62,7 +62,7 @@ public class ReqArrayController {
         String querySQL = "SELECT * FROM dwd_scheduledflight where departureDate = '" + departureDate +
                 "' and departureCityName = '" + departureCityName +
                 "' and arrivalCityName = '" + arrivalCityName +
-                "' and airlineName = '" + airlineName + "'order by departureTime;";
+                "' and airlineName = '" + airlineName + "'order by arrivalTime asc;";
         System.out.println(departureDate+" "+departureCityName+" "+arrivalCityName+" "+airlineName);
 
         return (List<Map<String, Object>>) jdbcTemplate.queryForList(querySQL);
@@ -79,7 +79,7 @@ public class ReqArrayController {
         String querySQL = "SELECT * FROM dwd_scheduledflight where departureDate = '" + departureDate +
                 "' and departureCityName = '" + departureCityName +
                 "' and arrivalCityName = '" + arrivalCityName +
-                "' and airlineName = '" + airlineName + "'order by price;";
+                "' and airlineName = '" + airlineName + "'order by price asc;";
         // dump without feature map
 //        String[] model_dump = booster.getModelDump(null, false);
 //// dump with feature map
