@@ -1,0 +1,112 @@
+#predict-index-app{
+    /*border:1px solid black;*/
+    margin: 0 auto;
+    padding: 0;
+}
+
+#predict-header,#predict-main,#predict-footer{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    /*border: 1px solid red;*/
+}
+
+/************************header**********************/
+#predict-header{
+    background-color: #eef2f3;
+}
+.block{
+    z-index: 1;
+}
+.el-carousel__container {
+    height: 250px;
+}
+.el-carousel__item {
+    width: 100%;
+    display: flex;
+    /*align-items: center;*/
+    /*justify-content: center;*/
+}
+.el-carousel__indicators--horizontal {
+    bottom: 60px;
+}
+
+.carousel-image {
+    max-width: 100%;
+    max-height: 90%;
+}
+/************************main**********************/
+.el-main{
+    overflow: visible;
+    /*background-color: #dbdbdb;*/
+    background: linear-gradient(to bottom, #e8eced, #d2dadd, #c2d4e0, #68b0d8,#2461A2,#103E70);
+}
+#search-box{
+    width: 80%;
+    margin: 0 auto;
+    position: relative;
+    top: -70px;
+    z-index: 2;
+}
+.data_table{
+    /* 默认不显示*/
+    display: none;
+}
+.data_table_selected{
+    /*选中即显示*/
+    display:  inline;
+}
+.el-menu--horizontal{
+    border-radius: 8px 8px 0px 0px;
+    border-bottom: none !important;
+    background-color: #191e37;
+
+}
+.el-menu--horizontal > .el-menu-item{
+    height: 45px;
+    line-height: 45px;
+    border-radius: 8px 8px 0px 0px;
+    padding: 0px 40px 0px 20px;
+    font-weight: bold;
+    color: #c9c9c9;
+}
+/*被点击的哪个功能栏*/
+.el-menu--horizontal > .el-menu-item.is-active{
+    background-color: #fafafa !important;
+    color: black !important;
+    font-weight: bold !important;
+    border-bottom: black;
+    border-bottom-color: #fafafa;
+
+}
+/************************footer**********************/
+#predict-footer{
+    background:#222c3a;
+    width: 100%;
+    height: 175px;
+    text-align: center;
+    color: white;
+}
+
+#predict-footer .footer-top{
+    margin-top: 40px;
+}
+.footer-top a,.footer-content a{
+    color: #f0f1f1;
+    text-decoration: none;
+    padding: 0 10px;
+    vertical-align:middle;
+}
+.footer-content{
+    font-size: 90%;
+    margin-top: 20px;
+}
+.footer-top a:hover,.footer-content a:hover{
+    color: #3086b5;
+    text-decoration: underline;
+}
+#predict-footer p{
+    height: 15px;
+    color: #888888;
+    margin-top: 30px;
+}
