@@ -37,7 +37,7 @@ public class RecommendedController {
         String querySQL = "SELECT * FROM dwd_scheduledflight where departureDate = '" + departureDate +
                 "' and departureCityName = '" + departureCityName +
                 "' and arrivalCityName = '" + arrivalCityName + "';";
-        System.out.println(departureDate+" "+departureCityName+" "+arrivalCityName);
+        System.out.println("参数"+departureDate+" "+departureCityName+" "+arrivalCityName);
         return (List<Map<String, Object>>) jdbcTemplate.queryForList(querySQL);
     }
 

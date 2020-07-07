@@ -2,9 +2,201 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>购买机票首页</title>
+    <script src="js/vue.js"></script>
+    <!-- 引入ElementUI-->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="css/buyTickets.css">
+
 </head>
 <body>
+    <div id="ticket-app">
+        <div id="ticket-header">
+        </div>
+        <div id="ticket-content">
+            <!--条件筛选条目-->
+            <div id="screening-bar">
 
+                <el-select class="condition flight-type" v-model="flightType" @change="choiceFlightType">
+                    <el-option label="单程" :value="0"></el-option>
+                    <el-option label="往返" :value="1"></el-option>
+                    <el-option label="多程" :value="2"></el-option>
+                </el-select>
+
+                <el-select class="condition" v-model="departPlace" placeholder="选择出发地">
+                    <el-option v-for="item in cities" :keys="item.cityname" :label="item.cityname" :value="item.cityname"></el-option>
+                </el-select>
+<!--                <el-input class="condition input-con" v-model="departPlace" placeholder="选择出发地">-->
+
+                </el-input>
+                <el-select class="condition" v-model="destination" placeholder="选择目的地">
+                    <el-option v-for="item in cities" :label="item.cityname" :value="item.cityname"></el-option>
+                </el-select>
+                <el-date-picker class="condition" v-model="departTime" placeholder="选择出发日期" value-format="yyyy-M-d" format="yyyy-M-d"></el-date-picker>
+                <el-date-picker class="condition" v-model="arriveTime" placeholder="选择返程日期" value-format="yyyy-M-d" format="yyyy-M-d"></el-date-picker>
+
+                <el-button class="condition search-btn" @click.native="searchTickets">搜索</el-button>
+            </div>
+            <!-- 购买的机票-->
+            <div v-show="orderedTickets[0] != null" id="buy-tickets">
+                <div v-for="(item, index) in orderedTickets" class="clearfix choiced-tickets">
+                    <div v-show="flightType==0" class="choiced-title">
+                        已选机票
+                    </div>
+                    <div v-show="flightType==1 && index == 0" class="choiced-title">
+                        已选去程
+                    </div>
+                    <div v-show="flightType==1 && index == 1" class="choiced-title">
+                        已选回程
+                    </div>
+
+                    <div class="ch-company-icon">
+                        <img :src="item.src">
+                    </div>
+                    <div class="choiced-flight-head">
+                        <div class="plane-name text-style-03">{{item.airlineName}}</div>
+                    </div>
+
+                    <div class="choiced-flight-time">
+                        <div class="depart-info">
+                            <div class="depart-time text-style-03">{{item.departureTime}}</div>
+                            <div class="depart-airport text-style-03">{{item.departureAirportName}}</div>
+                        </div>
+
+                        <p v-show="(index == 0 && goIndex != -2) || (index == 1 && returnIndex != -2)" class="choiced-depart-line"></p>
+
+                        <div class="choiced-arrive-info">
+                            <div class="arrive-time text-style-03">{{item.arrivalTime}}</div>
+                            <div class="arrive-airport text-style-03">{{item.arrivalAirportName}}</div>
+                        </div>
+                    </div>
+
+                    <el-button v-show="(index == 0 && goIndex != -2) || (index == 1 && returnIndex != -2)" type="danger" plain="true" class="re-choice-btn" @click="reChoiceTicket(index)">重新选择</el-button>
+                    <el-button v-show="(index == 0 && goIndex != -2) || (index == 1 && returnIndex != -2)" type="danger" plain="true" class="purchase-btn">去购买</el-button>
+                </div>
+            </div>
+            <!--排序条目-->
+            <div id="sort-bar">
+                <ul class="menu">
+                    <li v-for="(item, index) in sortMenu" @click="sortChange(index)" :class="{whiteColor:index != nowIndex}" :class="{checked:index===nowIndex}">
+                        <a v-show="item.down" >{{item.title}} &#8595</a>
+                        <a v-show="item.upon">{{item.title}} &#8593</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- 展示内容-->
+        <div id="sort-result" class="clearfix">
+            <!--左边筛选栏-->
+            <div id="left-screening">
+                <p class="left-screening-title">筛选</p>
+                <h4 class="flight-company">航空公司</h4>
+                <div class="flight-company-detail">
+                    <div v-for="(item, index) in company" class="company-item">
+                        <el-checkbox v-model="item.checked" :label="item.airlineName" @change="choiceAirline(index)"></el-checkbox><br>
+                    </div>
+                </div>
+            </div>
+            <div id="tickets-bar">
+                <div class="condition-message">
+                    <label class="text-style-01" v-show="flightType == 0">单程：</label>
+
+                    <label class="text-style-01" v-show="flightType == 1 && (goIndex == -1 || goIndex == -2)">请选择去程：</label>
+                    <label class="text-style-01" v-show="flightType == 1 && goIndex != -1 && goIndex != -2">请选择回程：</label>
+
+                    <label class="text-style-01" v-show="flightType == 2">多程：</label>
+
+                    <label class="text-style-01" v-show="depart">{{departPlace}}</label>
+                    <label class="text-style-01"  v-show="!depart">{{destination}}</label>
+                    <p class="to-line"></p>
+                    <label class="text-style-01"  v-show="depart"> {{destination}}</label>
+                    <label class="text-style-01"  v-show="!depart">{{departPlace}}</label>
+
+                    <label class="text-style-02"  v-show="depart">{{departTime}}</label>
+                    <label class="text-style-02"  v-show="!depart">{{arriveTime}}</label>
+
+                    <label class="text-style-02">共{{ flights.length }}个直达航班</label>
+                </div>
+                <div class="flight">
+                    <div v-for="(item, index) in flights" class="clearfix flight-item">
+                        <div class="company-icon">
+                            <img :src="item.src">
+                        </div>
+                        <div class="flight-head">
+
+                            <div class="plane-name text-style-03">{{item.airlineName}}</div>
+                            <div class="plane-size text-style-04">{{item.flightNumber}}</div>
+                        </div>
+
+                        <div class="flight-time">
+                            <div class="depart-info">
+                                <div class="depart-time text-style-03">{{item.departureTime}}</div>
+                                <div class="depart-airport text-style-04">{{item.departureAirportName}}</div>
+                            </div>
+
+                            <p class="depart-line"></p>
+
+                            <div class="arrive-info">
+                                <div class="arrive-time text-style-03">{{item.arrivalTime}}</div>
+                                <div class="arrive-airport text-style-04">{{item.arrivalAirportName}}</div>
+                            </div>
+
+                        </div>
+
+                        <div class="flight-price text-style-05">￥{{item.price}}</div>
+                        <el-button v-show="index != goIndex && index != returnIndex" class="choice-btn" @click="choiceTicket(index)">选择</el-button>
+                        <el-button v-show="index == goIndex || index == returnIndex" class="choice-btn" disabled="true"  plain="true" type="danger">已选择</el-button>
+                    </div>
+                </div>
+                <div class="alternative">
+                    <div class="transit-head">
+                        <label class="text-style-01">中转方案</label>
+                    </div>
+                    <div class="transit-flight">
+                        <div v-for="(item, index) in transitFlight" class="clearfix flight-item">
+                            <div class="company-icon">
+                                <img :src="item.src">
+                            </div>
+                            <div class="flight-head">
+
+                                <div class="plane-name text-style-03">{{item.airlineName}}</div>
+                                <div class="plane-size text-style-04">{{item.flightNumber}}</div>
+                            </div>
+
+                            <div class="flight-time">
+                                <div class="depart-info">
+                                    <div class="depart-time text-style-03">{{item.departureTime}}</div>
+                                    <div class="depart-airport text-style-04">{{item.departureAirportName}}</div>
+                                </div>
+
+                                <div class="middle-message">
+                                    <p class="transit-line first"></p>
+                                    <label> 转 </label>
+                                    <p class="second transit-line"></p>
+                                    <div class="transit-place">
+                                        <label class="place text-style-04">地点</label>
+                                    </div>
+                                </div>
+
+                                <div class="arrive-info">
+                                    <div class="arrive-time text-style-03">{{item.arrivalTime}}</div>
+                                    <div class="arrive-airport text-style-04">{{item.arrivalAirportName}}</div>
+                                </div>
+
+                            </div>
+
+                            <div class="flight-price text-style-05">￥{{item.price}}</div>
+                            <el-button v-show="index != goIndex && index != returnIndex" class="choice-btn" @click="choiceTicket(index)">选择</el-button>
+                            <el-button v-show="index == goIndex || index == returnIndex" class="choice-btn" disabled="true"  plain="true" type="danger">已选择</el-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--引入自定义的js文件-->
+    <script src="js/buyTickets.js"></script>
 </body>
 </html>
