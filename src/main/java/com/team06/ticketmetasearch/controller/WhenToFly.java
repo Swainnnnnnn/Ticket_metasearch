@@ -51,6 +51,9 @@ public class WhenToFly {
             }
             if ( backAndgo==0){
                 backAndgo=((BigDecimal )GoList.get(i).get("price")).intValue();
+                GoList.get(i).put("IsOneWay",true);
+            }else{
+                GoList.get(i).put("IsOneWay",false);
             }
 
             GoList.get(i).put("price",backAndgo);
