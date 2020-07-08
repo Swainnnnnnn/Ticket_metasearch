@@ -27,18 +27,16 @@ public class WhenToFly {
     public List<Map<String, Object>> GetWhenToFly(HttpServletRequest request, HttpServletResponse response,
                                                   @RequestParam(value = "departureCityName")String departureCityName,
                                                   @RequestParam(value = "arrivalCityName")String arrivalCityName , @RequestParam(value = "departureMonth")String departureMonth ) throws SQLException {
-        departureCityName="北京";
-        arrivalCityName="成都";
+       /* departureCityName="北京";
+        arrivalCityName="成都";*/
         departureMonth =departureMonth+"%" ;
-        PreparedStatement statement = null;
-      //  String querySQL = "SELECT dt , avg(price) price FROM  ?  where Destination= ? order by dt group by dt;";
+
+
        String querySQL = "SELECT departureDate , avg(price) price FROM  dwd_scheduledflight  where departureCityName= ?  and arrivalCityName = ?  and departureDate LIKE  ? group by departureDate order by departureDate ; ";
-      /*  statement.setString(1,departureCityName);
-        statement.setString(2,arrivalCityName);*/
+
         List<Map<String, Object>> GoList = jdbcTemplate.queryForList(querySQL, departureCityName,arrivalCityName,departureMonth);
         System.out.println(GoList.toString());
-      /*  statement.setString(2,departureCityName);
-        statement.setString(1,arrivalCityName);*/
+     
         List<Map<String, Object>> BackList = jdbcTemplate.queryForList(querySQL, arrivalCityName,departureCityName,departureMonth);
         System.out.println(BackList.toString());
         for (int i = 0; i < GoList.size(); i++) {
