@@ -42,21 +42,17 @@ public class WhenToFly {
         List<Map<String, Object>> BackList = jdbcTemplate.queryForList(querySQL, arrivalCityName,departureCityName,departureMonth);
         System.out.println(BackList.toString());
         for (int i = 0; i < GoList.size(); i++) {
-            int backAndgo=0 ;
+            int back =0 ;
             for (int j = 0; j < BackList.size(); j++){
                 if ((String)GoList.get(i).get("departureDate")==(String)BackList.get(j).get("departureDate")){
-                     backAndgo= ((BigDecimal )GoList.get(i).get("price")).intValue()+((BigDecimal )BackList.get(j).get("price")).intValue();
+                     back =  ((BigDecimal )BackList.get(j).get("price")).intValue();
                      break;
                 }
             }
-            if ( backAndgo==0){
-                backAndgo=((BigDecimal )GoList.get(i).get("price")).intValue();
-                GoList.get(i).put("IsOneWay",true);
-            }else{
-                GoList.get(i).put("IsOneWay",false);
-            }
 
-            GoList.get(i).put("price",backAndgo);
+
+            GoList.get(i).put("GoPrice", ((BigDecimal )GoList.get(i).get("price")).intValue());
+            GoList.get(i).put("BackPrice", back);
         }
         System.out.println(GoList.toString());
         return  GoList;
