@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:link="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>机票元搜索智能分析</title>
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="js/echarts.min.js"></script>
+    <script src="js/vue.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script src="js/predict_footer.js"></script>
+    <script src="js/predict_header.js"></script>
+    <script src="js/predict/price_searchbox.js"></script>
+    <script src="js/predict/place_searchbox.js"></script>
+<!--    <script src="../js/predict/test.js"></script>-->
+<!--    <script src="../../js/searchbox.js"></script>-->
+
+    <link rel="stylesheet" type="text/css" href="css/predict_index.css">
+    <link rel="stylesheet" type="text/css" href="css/predict_func.css">
+    <link rel="stylesheet" type="text/css" href="css/predic_res.css">
+</head>
+<body>
+    <div id="predict-index-app">
+        <el-container>
+            <el-header id="predict-header" style="height: 250px">
+                <!--导入header局部组件-->
+                <div id="header-wrapper"></div>
+            </el-header>
+
+            <el-main id="predict-main">
+                <div id="search-box">
+                    <el-menu
+                            default-active="1"
+                            class="el-menu-demo"
+                            mode="horizontal"
+                            @select="handleSelect">
+                        <el-menu-item index="1">
+                            <i class="el-icon-data-line"></i>
+                            <span slot="title">机票价格预测</span>
+                        </el-menu-item>
+                        <el-menu-item index="2">
+                            <i class="el-icon-position"></i>
+                            <span slot="title">出行推荐</span>
+                        </el-menu-item>
+                    </el-menu>
+
+                    <!-------------------predic price 信息收集框 组件---------------------------->
+                    <div class="data_table data_table_selected" id="price-search-box"></div>
+                    <!-------------------predic place 信息收集框 组件---------------------------->
+                    <div class="data_table" id="place-search-box"></div>
+
+                </div>
+            </el-main>
+
+            <el-footer id="predict-footer" style="height: 100%">
+                <!--导入footer局部组件-->
+                <div id="footer-wrapper"></div>
+            </el-footer>
+        </el-container>
+    </div>
+
+</body>
+<script>
+
+new Vue({
+     el:'#predict-index-app',
+    data(){
+        return{
+        }
+    },
+    methods: {
+        handleSelect(key, keyPath) {
+            // console.log(key, keyPath);
+            $('.data_table').removeClass('data_table_selected');
+            $('.data_table').eq(key-1).addClass('data_table_selected');
+        },
+    },
+    components:{
+    }
+});
+
+</script>
+</html>

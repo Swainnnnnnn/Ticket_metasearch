@@ -1,12 +1,13 @@
 package com.team06.ticketmetasearch.controller;
 
 
+import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +16,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-@RestController
+@Controller
 @RequestMapping(value = "/Predict")
 public class WhenToFly {
     @Autowired
@@ -25,21 +26,34 @@ public class WhenToFly {
     @ResponseBody
     public List<Map<String, Object>> GetWhenToFly(HttpServletRequest request, HttpServletResponse response,
                                                   @RequestParam(value = "departureCityName")String departureCityName,
-                                                  @RequestParam(value = "arrivalCityName")String arrivalCityName) throws SQLException {
+                                                  @RequestParam(value = "arrivalCityName")String arrivalCityName , @RequestParam(value = "departureMonth")String departureMonth ) throws SQLException {
+       /* departureCityName="北京";
+        arrivalCityName="成都";*/
+        departureMonth =departureMonth+"%" ;
 
-        PreparedStatement statement = null;
-        String querySQL = "SELECT dt , avg(price) price FROM  ?  where Destination= ? order by dt group by dt;";
-        //String querySQL = "SELECT departureDate , avg(price) price FROM  dwd_scheduledflight  where departureCityName= ?  and arrivalCityName = ? order by departureDate group by departureDate;";
-      /*  statement.setString(1,departureCityName);
-        statement.setString(2,arrivalCityName);*/
-        List<Map<String, Object>> GoList = jdbcTemplate.queryForList(querySQL, departureCityName,arrivalCityName);
-      /*  statement.setString(2,departureCityName);
-        statement.setString(1,arrivalCityName);*/
-        List<Map<String, Object>> BackList = jdbcTemplate.queryForList(querySQL, arrivalCityName,departureCityName);
+
+       String querySQL = "SELECT departureDate , avg(price) price FROM  dwd_scheduledflight  where departureCityName= ?  and arrivalCityName = ?  and departureDate LIKE  ? group by departureDate order by departureDate ; ";
+
+        List<Map<String, Object>> GoList = jdbcTemplate.queryForList(querySQL, departureCityName,arrivalCityName,departureMonth);
+        System.out.println(GoList.toString());
+     
+        List<Map<String, Object>> BackList = jdbcTemplate.queryForList(querySQL, arrivalCityName,departureCityName,departureMonth);
+        System.out.println(BackList.toString());
         for (int i = 0; i < GoList.size(); i++) {
-             int backAndgo= (int )GoList.get(i).get("price")+(int )BackList.get(i).get("price");
+            int backAndgo=0;
+            for (int j = 0; j < BackList.size(); j++){
+                if ((String)GoList.get(i).get("departureDate")==(String)BackList.get(j).get("departureDate")){
+                     backAndgo= (int )GoList.get(i).get("price")+(int )BackList.get(j).get("price");
+                     break;
+                }
+            }
+            if ( backAndgo==0){
+                backAndgo= (int )GoList.get(i).get("price");
+            }
+
             GoList.get(i).put("price",backAndgo);
         }
+        System.out.println(GoList.toString());
         return  GoList;
 
 }
@@ -56,4 +70,5 @@ public class WhenToFly {
         List<Map<String, Object>> list = jdbcTemplate.queryForList(querySQL, departureCity,departureDate);
         return  list;
     }
+
 }

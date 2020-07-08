@@ -23,6 +23,13 @@ public class BaseInfoController {
         String querySQL = "SELECT cityname FROM dwd_city;";
         return (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(querySQL);
     }
+    // 返回城市集合*（包含三字码）
+    @GetMapping("/cityList1")
+    @ResponseBody
+    public ArrayList<Map<String, Object>> DisplayCity1() {
+        String querySQL = "SELECT cityname,citytlc FROM dwd_city;";
+        return (ArrayList<Map<String, Object>>) jdbcTemplate.queryForList(querySQL);
+    }
 
     // 返回航空公司集合
     @GetMapping("/airlineList")

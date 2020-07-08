@@ -1,0 +1,146 @@
+#predict-price-box,#preditc-place-box{
+    width: 100%;
+    background-color: #fcfcfc;
+    /*height: 200px;*/
+    /*border: 1px solid black;*/
+}
+/*#preditc-price-wrapper{*/
+/*    position: relative;*/
+/*}*/
+#predict-price-box,#preditc-place-box{
+    position: relative;
+    border-radius: 0px 0px 8px 8px;
+    /*border: 1px solid #fcfcfc;*/
+    box-shadow: 3px 5px 5px #f2f2f2;
+}
+/********************price******************/
+.el-divider{
+    padding: 20px 0px 0px 0px;
+    margin:0 auto;
+    background-color: #ffffff;
+}
+.el-divider>.el-divider__text{
+    background-color: #ffffff !important;
+    color: #8a8a8a !important;
+}
+#predict-price-search-box{
+    background-color: #ffffff;
+    border-radius: 0px 0px 8px 8px;
+}
+
+.search-box-div{
+    float: left;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-bottom: 30px;
+}
+.el-scrollbar{
+    height: 200px;
+}
+.el-input__inner{
+    height: 50px;
+    line-height: 50px;
+    width: 220px;
+}
+.el-select .el-input.is-focus .el-input__inner{
+    border-color: #f2f2f2;
+}
+.el-checkbox{
+    line-height: 50px;
+}
+.el-checkbox__label{
+    font-size: 17px;
+}
+.el-input__suffix-inner{
+    margin-right: 10px;
+}
+.btn-search{
+    height: 40px;
+    width: 180px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #ff7d01 !important;
+    border-color: #ff9f09 !important;
+    margin-left: 30px;
+}
+#select-month{
+    width: 100px !important;
+}
+#select-month .el-input__inner{
+    padding-left: 30px;
+    padding-right: 0px;
+    width: 100px;
+}
+.transformi{
+    line-height: 50px;
+    float: left;
+    margin-left: 10px;
+    font-size: 30px;
+    transform: rotate(90deg)!important;
+}
+#startplace,#endplace{
+    margin-right: 10px;
+}
+/********************place*************/
+#predict-place-box>.el-divider--horizontal{
+    padding: 20px 0px 0px 0px !important;
+    margin:0 auto !important;
+    background-color: #ffffff;
+}
+
+#predict-place-search-box{
+    background-color: #ffffff;
+    border-radius: 0px 0px 8px 8px;
+}
+
+.search-box-div2{
+    float: left;
+    margin-top: 20px;
+    margin-left: 30px;
+    margin-right: 10px;
+    margin-bottom: 30px;
+}
+.el-scrollbar{
+    height: 200px;
+}
+.search-box-div2 .el-input__inner{
+    height: 50px;
+    line-height: 50px;
+    width: 250px;
+}
+search-box-div2 .btn-search{
+    height: 40px;
+    width: 180px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #ff7d01 !important;
+    border-color: #ff9f09 !important;
+    margin-left: 50px;
+}
+#select-date .el-date-picker .el-picker-panel{
+    line-height: 0px !important;
+}
+.el-date-picker__header{
+    magrin: 10px 12px 0px 12px !important;
+}
+.el-picker-panel__content{
+    margin: 5px 10px 0px 10px;
+}
+.icon2{
+    line-height: 50px;
+    float: left;
+    margin-left: 20px;
+    font-size: 30px;
+}
+
+/************************************/
+.clearfix{
+    *zoom: 1;
+}
+.clearfix::after{
+    content: ",";
+    display: block;
+    clear: both;
+    height: 0;
+    visibility: hidden;
+}
