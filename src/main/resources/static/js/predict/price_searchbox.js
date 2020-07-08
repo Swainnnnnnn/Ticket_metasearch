@@ -1,154 +1,23 @@
 $(function () {
-    //绘制的图表
-    var test={
-        // el:'#all-result-test',
-        // name:'test',
-        mounted:function () {            //AJAX操作不需要刷新浏览器
-            console.log("test chars:")
-            // var myChart = echarts.init(document.getElementById('all-result-test'));
-            var test = this.$refs.chart;
-            let myChart = echarts.init(test);
-            console.log(test);
-            var option = {
-                title: {
-                    text: '某地区蒸发量和降水量',
-                    subtext: '纯属虚构'
-                },
-                tooltip: {
-                    trigger: 'axis'
-                },
-                legend: {
-                    data: ['蒸发量', '降水量']
-                },
-                toolbox: {
-                    show: true,
-                    feature: {
-                        dataView: {show: true, readOnly: false},
-                        magicType: {show: true, type: ['line', 'bar']},
-                        restore: {show: true},
-                        saveAsImage: {show: true}
-                    }
-                },
-                calculable: true,
-                xAxis: [
-                    {
-                        type: 'category',
-                        data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
-                    }
-                ],
-                yAxis: [
-                    {
-                        type: 'value'
-                    }
-                ],
-                series: [
-                    {
-                        name: '蒸发量',
-                        type: 'bar',
-                        data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
-                        markPoint: {
-                            data: [
-                                {type: 'max', name: '最大值'},
-                                {type: 'min', name: '最小值'}
-                            ]
-                        },
-                        markLine: {
-                            data: [
-                                {type: 'average', name: '平均值'}
-                            ]
-                        }
-                    },
-                    {
-                        name: '降水量',
-                        type: 'bar',
-                        data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-                        markPoint: {
-                            data: [
-                                {name: '年最高', value: 182.2, xAxis: 7, yAxis: 183},
-                                {name: '年最低', value: 2.3, xAxis: 11, yAxis: 3}
-                            ]
-                        },
-                        markLine: {
-                            data: [
-                                {type: 'average', name: '平均值'}
-                            ]
-                        }
-                    }
-                ]
-            };
-            myChart.setOption(option);
-        },
-        template:`
-           <div id="all-result" ref="chart"> </div>
-        `
-    };
-    //price图表显示框
-    var price_result_box={
-        data(){
-            return{
-            }
-        },
-        props:['startplace','endplace'],//父组件传值接收
-        template:`
-         <div id="price-result-box" class="data_table2">
-                <div class="result-title-box clearfix">
-                    <div><span>搜索结果</span></div>
-                    <el-input v-model='startplace' :placeholder='startplace'></el-input>
-                    <i class="el-icon-sort transformi" ></i>
-                    <el-input v-model='endplace' :placeholder='endplace' ></el-input>
-                </div>
-
-                <div id="price-result-wrapper">
-                    <!------一年内价格 月份------->
-                    <div id="all-result-wrapper">
-<!--                                <div id="all-result-test"></div>-->
-<!--                        <test id="all-result-test"></test>-->
-                    </div>
-
-                    <!------出行价格 日期------->
-                    <div id="go-result-wrapper">
-                        <div class="result-title-box clearfix">
-                            <div><span>去往日期</span></div>
-                            <el-input v-model='startplace' :placeholder='startplace'></el-input>
-                            <i class="el-icon-sort-up transformi" ></i>
-                            <el-input v-model='endplace':placeholder='endplace' ></el-input>
-                        </div>
-<!--                        <test id="go-result-test"></test>-->
-                    </div>
-
-                    <!------返程价格 日期------->
-                    <div id="return-result-wrapper">
-                        <div class="result-title-box clearfix">
-                            <div><span>返程日期</span></div>
-                            <el-input v-model='startplace' :placeholder='startplace'></el-input>
-                            <i class="el-icon-sort-down transformi" ></i>
-                            <el-input v-model='endplace' :placeholder='endplace' ></el-input>
-                        </div>
-<!--                        <test id="return-result-test"></test>-->
-                    </div>
-
-                </div>
-          </div>
-        `
-    }
     new Vue({
         el:'#price-search-box',//预测机票价格
         data(){
             return{
                 cities:[],//城市集合
+                priceinfo:[],//搜索的价格集合 日期+去往价格+返程价格
                 startplace: '',//出发地
                 endplace:'',//目的地
                 selectmonth:'',//月份
                 month:'',//选择的月份数 2020-7
-                checked:true
+                checked:true,
             }
         },
         methods:{
             selectStartCity(e){
-                console.log(this.startplace);
+                // console.log(this.startplace);
             },
             selectEndCity(e){
-                console.log(this.endplace);
+                // console.log(this.endplace);
             },
             //搜索前的数据校验
             SelectPrice(){
@@ -195,16 +64,171 @@ $(function () {
                 param.append('arrivalCityName',this.endplace)
                 param.append('departureMonth',this.month)
 
-                console.log("输入查询数据正确 开始进行数据分析 post")
-                console.log(this.month)
-                 axios.post("/Predict/WhenToFly", param,
-                     {headers:{'Content-type':'application/x-www-form-urlencoded'}})
+                console.log("输入查询数据正确 开始进行数据分析 post----何时飞")
+                // console.log(this.month)
+                axios.post("/Predict/WhenToFly", param,
+                    {headers:{'Content-type':'application/x-www-form-urlencoded'}})
                     .then(res => {
-                         console.log(res);
+                        this.priceinfo=res.data
+
+                        /*******************构建图表************************/
+                            //启程chart
+                        var gochart = this.$refs.gochart;
+                        let mygoChart = echarts.init(gochart);
+                        //返程chart
+                        var backchart = this.$refs.backchart;
+                        let mybackChart = echarts.init(backchart);
+
+                        var date = []
+                        var gopriceinfo = []
+                        var backpriceinfo =[]
+                        for (var i=0;i<this.priceinfo.length;i++){
+                            date.push(this.priceinfo[i].departureDate)//日期
+                            gopriceinfo.push(this.priceinfo[i].GoPrice)//启程价格
+                            backpriceinfo.push(this.priceinfo[i].BackPrice)//返程价格
+                        }
+                        //启程
+                        var gooption = {
+                            tooltip: {
+                                trigger: 'axis',
+                                axisPointer: {
+                                    type: 'cross',
+                                    crossStyle: {
+                                        color: '#999'
+                                    }
+                                }
+                            },
+                            title: {
+                                left: 'center',
+                                text: ''
+                            },
+                            legend: {
+                                data: ['何时飞——机票价格预测——启程']
+                            },
+                            xAxis: [
+                                {
+                                    type: 'category',
+                                    name: '日期',
+                                    data: date,//日期
+                                    axisPointer: {
+                                        type: 'shadow'
+                                    }
+                                }
+                            ],
+                            yAxis: [
+                                {
+                                    type: 'value',
+                                    name: '机票价格',
+                                    axisLabel: {
+                                        formatter: '{value} 元'
+                                    }
+                                }
+                            ],
+                            series: [
+                                {
+                                    name: '机票价格',
+                                    type: 'bar',
+                                    data: gopriceinfo,//启程机票价格
+                                    markPoint: {
+                                        data: [
+                                            {type: 'max', name: '最高价格'},
+                                            {type: 'min', name: '最低价格'}
+                                        ]
+                                    },
+                                    markLine: {
+                                        data: [
+                                            {type: 'average', name: '平均票价'}
+                                        ]
+                                    },
+                                    itemStyle: {
+                                        normal: {
+                                            //这里是重点
+                                            color: function(params) {
+                                                //注意，如果颜色太少的话，后面颜色不会自动循环，最好多定义几个颜色
+                                                if(params.dataIndex%2==0)
+                                                    return '#c23531'
+                                                else
+                                                    return  '#2f4554'
+                                            }
+                                        }
+                                    }
+                                },
+                            ],
+                        };
+                        //返程
+                        var backoption = {
+                            tooltip: {
+                                trigger: 'axis',
+                                axisPointer: {
+                                    type: 'cross',
+                                    crossStyle: {
+                                        color: '#999'
+                                    }
+                                }
+                            },
+                            title: {
+                                left: 'center',
+                                text: ''
+                            },
+                            legend: {
+                                data: ['何时飞——机票价格预测——返程']
+                            },
+                            xAxis: [
+                                {
+                                    type: 'category',
+                                    name: '日期',
+                                    data: date,//日期
+                                    axisPointer: {
+                                        type: 'shadow'
+                                    }
+                                }
+                            ],
+                            yAxis: [
+                                {
+                                    type: 'value',
+                                    name: '机票价格',
+                                    axisLabel: {
+                                        formatter: '{value} 元'
+                                    }
+                                }
+                            ],
+                            series: [
+                                {
+                                    name: '机票价格',
+                                    type: 'bar',
+                                    data: backpriceinfo,//启程机票价格
+                                    markPoint: {
+                                        data: [
+                                            {type: 'max', name: '最高价格'},
+                                            {type: 'min', name: '最低价格'}
+                                        ]
+                                    },
+                                    markLine: {
+                                        data: [
+                                            {type: 'average', name: '平均票价'}
+                                        ]
+                                    },
+                                    itemStyle: {
+                                        normal: {
+                                            //这里是重点
+                                            color: function(params) {
+                                                //注意，如果颜色太少的话，后面颜色不会自动循环，最好多定义几个颜色
+                                                if(params.dataIndex%2==0)
+                                                    return '#61a0a8'
+                                                else
+                                                    return  '#d48265'
+                                            }
+                                        }
+                                    }
+                                },
+                            ],
+                        };
+                        mygoChart.setOption(gooption);
+                        mybackChart.setOption(backoption);
                     })
-                  .catch(function (error) {
-                       console.log(error);
-                   });
+                    .catch(function (error) {
+                        console.log(error);
+                    });
 
                 //图表区域显示
                 $('.data_table2').removeClass('data_table_selected2')
@@ -220,9 +244,6 @@ $(function () {
                 console.log(error);
             })
 
-        },
-        components:{
-            price_result_box,
         },
 
         template:`
@@ -281,11 +302,50 @@ $(function () {
                 </el-button>
             </div>
             
-<!--           <test class="search-box-div"></test>-->
-           <price_result_box
-                :startplace="startplace"
-                :endplace="endplace">
-            </price_result_box>
+              <!-- -------------------构建图表区域------------------------------->
+
+         <div id="price-result-box" class="data_table2">
+                <div class="result-title-box clearfix">
+                    <div><span>搜索结果</span></div>
+<!--                    <el-input v-model='startplace' :placeholder='startplace'></el-input>-->
+<!--                    <i class="el-icon-sort transformi" ></i>-->
+<!--                    <el-input v-model='endplace' :placeholder='endplace' ></el-input>-->
+                </div>
+
+                <div id="price-result-wrapper">
+                    <!------一年内价格 月份------->
+<!--                    <div id="all-result-wrapper">-->
+<!--                    &lt;!&ndash;-&#45;&#45;&#45;&#45;月份价格图表-&#45;&#45;&#45;&#45;&ndash;&gt;-->
+<!--                        <test id="all-result-test"></test>-->
+<!--                    </div>-->
+
+                    <!------出行价格 日期------->
+                    <div id="go-result-wrapper">
+                        <div class="result-title-box clearfix">
+                            <div><span>去往日期</span></div>
+                            <el-input v-model='startplace' :placeholder='startplace'></el-input>
+                            <i class="el-icon-sort-up transformi" ></i>
+                            <el-input v-model='endplace':placeholder='endplace' ></el-input>
+                        </div>
+                        <!-------启程价格图表------->
+                         <div id="all-result" ref="gochart"> </div>
+                    </div>
+
+                    <!------返程价格 日期------->
+                    <div id="return-result-wrapper">
+                        <div class="result-title-box clearfix">
+                            <div><span>返程日期</span></div>
+                            <el-input v-model='startplace' :placeholder='startplace'></el-input>
+                            <i class="el-icon-sort-down transformi" ></i>
+                            <el-input v-model='endplace' :placeholder='endplace' ></el-input>
+                        </div>
+                        <!-------返程价格图表------->
+                           <div id="all-result" ref="backchart"> </div>
+                    </div>
+
+                </div>
+          </div>
+            
     </div>
         `
     })
