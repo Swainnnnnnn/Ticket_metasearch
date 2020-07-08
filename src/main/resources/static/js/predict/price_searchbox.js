@@ -189,15 +189,18 @@ $(function () {
                     this.$message.error('出行时间错误'); return;
                 }
                 //输入查询数据正确 开始进行数据分析 post
-                this.month=getyear+'-'+month
+                this.month=getyear+'/'+month
                 let param  = new URLSearchParams()
-                param.append('departureCityName','重庆')
-                param.append('arrivalCityName','北京')
+                param.append('departureCityName',this.startplace)
+                param.append('arrivalCityName',this.endplace)
+                param.append('departureMonth',this.month)
 
-                  console.log("输入查询数据正确 开始进行数据分析 post")
-                 axios.post('/Predict/WhenToFly', param)
-                    .then(function (response) {
-                         console.log(response);
+                console.log("输入查询数据正确 开始进行数据分析 post")
+                console.log(this.month)
+                 axios.post("/Predict/WhenToFly", param,
+                     {headers:{'Content-type':'application/x-www-form-urlencoded'}})
+                    .then(res => {
+                         console.log(res);
                     })
                   .catch(function (error) {
                        console.log(error);
@@ -210,7 +213,7 @@ $(function () {
         },
         created:function (){
             //获取城市信息 城市名+三字码
-            axios.get("/cityList").then(res => {
+            axios.get("/cityList1").then(res => {
                 // console.log(res)
                 this.cities = res.data
             }).catch(function (error) {
@@ -238,7 +241,7 @@ $(function () {
                             :label="item.cityname"
                             :value="item.cityname">
                         <span style="float: left">{{ item.cityname}}</span>
-<!--                        <span style="float: right; color: #8492a6; font-size: 13px">{{ item.cityname }}</span>-->
+                        <span style="float: right; color: #8492a6; font-size: 13px">{{ item.citytlc }}</span>
                     </el-option>
                 </el-select>
     
@@ -255,7 +258,7 @@ $(function () {
                             :label="item.cityname"
                             :value="item.cityname">
                         <span style="float: left">{{ item.cityname }}</span>
-                        <span style="float: right; color: #8492a6; font-size: 13px">{{ item.cityname }}</span>
+                        <span style="float: right; color: #8492a6; font-size: 13px">{{ item.citytlc}}</span>
                     </el-option>
                 </el-select>
     
