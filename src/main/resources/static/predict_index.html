@@ -15,14 +15,11 @@
     <script src="js/predict_footer.js"></script>
     <script src="js/predict_header.js"></script>
     <script src="js/predict/price_searchbox.js"></script>
-    <script src="js/predict/place_searchbox_test.js"></script>
-<!--    <script src="../js/predict/test.js"></script>-->
-<!--    <script src="../../js/searchbox.js"></script>-->
+    <script src="js/predict/place_searchbox.js"></script>
 
     <link rel="stylesheet" type="text/css" href="css/predict_index.css">
     <link rel="stylesheet" type="text/css" href="css/predict_func.css">
     <link rel="stylesheet" type="text/css" href="css/predic_res.css">
-    <style>#test-map {width:1000px; height: 1000px;margin: auto;}</style>
 </head>
 <body>
     <div id="predict-index-app">
@@ -54,8 +51,6 @@
                     <!-------------------predic place 信息收集框 组件---------------------------->
                     <div class="data_table" id="place-search-box"></div>
 
-<!--                    <div id="test-map" ref="testchart"></div>-->
-
                 </div>
             </el-main>
 
@@ -68,8 +63,6 @@
 
 </body>
 <script>
-    // var myChart = echarts.init(document.getElementById('test-map'));
-
 new Vue({
      el:'#predict-index-app',
     data(){
@@ -83,51 +76,6 @@ new Vue({
             $('.data_table').eq(key-1).addClass('data_table_selected');
         },
     },
-    components:{
-    },
-//     mounted(){
-//         var test = this.$refs.testchart;
-//         let myChart = echarts.init(test);
-//         console.log(test)
-//         var option = {
-//             tooltip: {
-// //                    show: false //不显示提示标签
-//                 formatter: '{b}', //提示标签格式
-//                 backgroundColor:"#ff7f50",//提示标签背景颜色
-//                 textStyle:{color:"#fff"} //提示标签字体颜色
-//             },
-//             series: [{
-//                 type: 'map',
-//                 mapType: 'china',
-//                 label: {
-//                     normal: {
-//                         show: true,//显示省份标签
-//                         textStyle:{color:"#c71585"}//省份标签字体颜色
-//                     },
-//                     emphasis: {//对应的鼠标悬浮效果
-//                         show: true,
-//                         textStyle:{color:"#800080"}
-//                     }
-//                 },
-//                 itemStyle: {
-//                     normal: {
-//                         borderWidth: .5,//区域边框宽度
-//                         borderColor: '#009fe8',//区域边框颜色
-//                         areaColor:"#ffefd5",//区域颜色
-//                     },
-//                     emphasis: {
-//                         borderWidth: .5,
-//                         borderColor: '#4b0082',
-//                         areaColor:"#ffdead",
-//                     }
-//                 },
-//                 data:[
-//                     {name:'福建', selected:true}//福建为选中状态
-//                 ]
-//             }],
-//         };
-//         myChart.setOption(option)
-//     }
 });
 
 </script>

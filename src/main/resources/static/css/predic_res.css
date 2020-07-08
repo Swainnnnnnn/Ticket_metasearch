@@ -129,3 +129,12 @@
 #place-result-box .result-title-box .el-input .el-input__inner{
     width: 150px;
 }
+
+#china{
+    /*border: 1px solid black;*/
+}
+#china div canvas{
+    position: relative;!important;
+    top: -10%!important;
+    left: -2%!important;
+}

@@ -1,208 +1,10 @@
 $(function() {
-    //显示地图图表
-    var placemap = {
-        mounted:function () {            //AJAX操作不需要刷新浏览器
-            console.log("test placemap:")
-            // var myChart = echarts.init(document.getElementById('all-result-test'));
-            var mapchart = this.$refs.mapchart;
-            let myChart = echarts.init(mapchart);
-            console.log(mapchart);
-
-            var option = {
-                geo: {
-                    map: 'china',
-                    roam: true,
-                    itemStyle: { // 定义样式
-                        normal: { // 普通状态下的样式
-                            areaColor: '#FFF5EE',
-                            borderColor: '#111'
-                        },
-                        emphasis: { // 高亮状态下的样式
-                            areaColor: '#FFFF00'
-                        }
-                    }
-                },
-                backgroundColor: '#FFFFFF',
-                title: {
-                    text: '全国订单量',
-                    subtext: '',
-                    x: 'center'
-                },
-                tooltip: {
-                    trigger: 'item',
-                    formatter: function(params) {
-                        var html = params.name + '<br/>';
-                        html += params.seriesName + ":";
-                        html += params.value[2]
-                        return html;
-                    }
-                },
-                //左侧小导航图标
-                visualMap: {
-                    show: true,
-                    x: 'left',
-                    y: 'center',
-                    splitList: [
-                        {
-                            start: 2000
-                        }, {
-                            start: 1500,
-                            end: 2000
-                        },
-                        {
-                            start: 1000,
-                            end: 1500
-                        }, {
-                            start: 500,
-                            end: 1000
-                        },
-                        {
-                            start: 200,
-                            end: 500
-                        }, {
-                            start: 0,
-                            end: 200
-                        },
-                    ],
-                    color: ['#FF0000', '#FF34B3', '#FF7256', '#FF8C69', '#FFAEB9', '#FFD39B']
-                },
-
-                toolbox: {
-                    show: true,
-                    orient: 'vertical',
-                    x: '1200',
-                    y: 'center',
-                    itemGap: 20,
-                    feature: {
-                        mark: {
-                            show: true
-                        },
-                        dataView: {
-                            show: true,
-                            readOnly: false
-                        },
-                        restore: {
-                            show: true
-                        },
-                        saveAsImage: {
-                            show: true
-                        }
-                    }
-                },
-
-                //配置属性
-                series: [{
-                    name: '订单量',
-                    type: 'scatter',
-                    coordinateSystem: 'geo', // series坐标系类型
-                    itemStyle: {
-                        normal: {
-                            label: {
-                                show: false,
-                                formatter: '{b}',
-                                position: 'right',
-                                textStyle: {
-                                    color: "#3D3D3D"
-                                }
-                            }
-                        },
-                        emphasis: {
-                            label: {
-                                show: true
-                            }
-                        }
-                    },
-                    data: [] //数据
-                }]
-            };
-            //初始化echarts实例
-            // var myChart = echarts.init(document.getElementById('map'));
-            //使用制定的配置项和数据显示图表
-            // myChart.setOption(option);
-            // myChart.showLoading({
-            //     text: '正在加载数据'
-            // }); //数据加载完之前先显示一段简单的loading动画
-            // var mydata = []; //返回数据
-            // $.ajax({
-            //     type: "post",
-            //     async: true,
-            //     url: "city/order",
-            //     data: {},
-            //     dataType: "json",
-            //     success: function(data) {
-            //         result = data.data;
-            //         if(data.status == 200) {
-            //             for(i in result) {
-            //                 mydata.push(result[i]);
-            //             }
-            //             myChart.hideLoading(); //隐藏加载动画
-            //             myChart.setOption({ //加载数据图表
-            //                 series: [{
-            //                     name: '订单量',
-            //                     data: mydata,
-            //                 }
-            //                 ]
-            //             });
-            //         }
-            //     },
-            //     error: function(error) {
-            //         //请求失败时执行该函数
-            //         alert("图表请求数据失败!");
-            //         myChart.hideLoading();
-            //     }
-            // })
-            myChart.showLoading({
-                text: '正在加载数据'
-            }); //数据加载完之前先显示一段简单的loading动画
-            var mydata = [
-                {name: '海门', value: [121.15, 31.89, 90]},
-                {name: '鄂尔多斯', value: [109.781327, 39.608266, 120]},
-                {name: '招远', value: [120.38, 37.35, 142]},
-                {name: '舟山', value: [122.207216, 29.985295, 123]}
-                ]; //返回数据
-            option.series.data=mydata;
-            myChart.hideLoading(); //隐藏加载动画
-            myChart.setOption(option);
-        },
-        template:`
-           <div id="all-result" ref="mapchart"> </div>
-        `
-    }
-    //price图表显示框
-    var place_result_box={
-        data(){
-            return{
-                // startplace:'北京',
-                // date:'2020-08-08'
-            }
-        },
-        props:['startplace','date'],//父组件传值接收
-        components:{
-            // placemap,//地图图表组件
-        },
-        template:`
-         <div id="place-result-box" class="data_table3">
-            <div class="result-title-box clearfix">
-                <div><span>搜索结果</span></div>
-                <el-input v-model='startplace' :placeholder='startplace'></el-input>
-                <i class="el-icon-link icon2" style="margin:0px;line-height: 35px"></i>
-                <el-input v-model='date' :placeholder='date' ></el-input>
-            </div>
-
-            <div id="place-result-wrapper">
-                <!------出行推荐 ------>
-                <div id="all-result-wrapper">
-<!--                    <placemap id="all-result-test"></placemap>-->
-                </div>
-            </div>
-        </div>
-        `
-    }
     new Vue({
         el: '#place-search-box', //计划出行
         data() {
             return {
                 cities: [], //城市集合
+                arrivecityinfo:[],//搜索得到的目的城市信息 城市名+价格
                 startplace: '', //出发地
                 selectdate: '', //出发日期
                 date: '', //搜索用 出发日期
@@ -883,7 +685,7 @@ $(function() {
                     "马公": [],
                     "香港": [114.162501, 22.274911],
                     "澳门": [113.554768, 22.193894]
-                }
+                }//城市经纬度
             }
         },
         methods: {
@@ -966,18 +768,94 @@ $(function() {
 
                 //输入查询数据正确 开始进行数据分析 post
                 this.date = getyear + '/' + month + '/' + getday
-                console.log(this.date)
-                  let param  = new URLSearchParams()
-                 param.append('departureCity',this.startplace)
-                  param.append('departureDate', this.date)
+                // console.log(this.date)
+                let param  = new URLSearchParams()
+                param.append('departureCity',this.startplace)
+                param.append('departureDate',this.date)
 
-                console.log("输入查询数据正确 开始进行数据分析 post")
+                console.log("输入查询数据正确 开始进行数据分析----飞去哪 post")
                 axios.post('/Predict/WhereToFly', param)
-                     .then(function (response) {
-                      console.log(response);
+                    .then(res => {
+                        // console.log(res);
+                        this.arrivecityinfo=res.data;
+                        console.log(this.arrivecityinfo)
+
+                        var placeinfo=[]//出行城市信息 出行城市 经纬度 价格？ json数组
+
+                        for(var i=0;i<this.arrivecityinfo.length;i++){
+                            var destination = this.arrivecityinfo[i].arrivalCityName//目的地
+                            var element = this.XY[destination]//经纬度
+                            element.push(this.arrivecityinfo[i].price)//价格
+                            var place={
+                                name:destination,
+                                value:element,
+                            }
+                            placeinfo.push(place)//存放json字符串
+                            // console.log("placeinfo:  "+placeinfo[i].value)
+                        }
+                        //开始构建地图图表
+                        var chinamap = this.$refs.chinamap;
+                        let myChart = echarts.init(chinamap);
+                        var option = {
+                            geo: {
+                                map: 'china',
+                                roam: true
+                            },
+                            tooltip: {
+                                trigger: 'item',
+                                formatter: function(params) {
+                                    var html =params.name + '<br/>';
+                                    html += params.seriesName + ":";
+                                    html += params.value[2]
+                                    return html;
+                                },
+                                backgroundColor:"#ff7f50",//提示标签背景颜色
+                                textStyle:{color:"#fff"} //提示标签字体颜色
+                            },
+                            series: [{
+                                name: '出行城市-机票价格',
+                                type: 'scatter',
+                                coordinateSystem: 'geo',
+                                mapType: 'china',
+                                label: {
+                                    normal: {
+                                        label: {
+                                            show: false
+                                        },
+                                        formatter: '{b}',
+                                        position: 'right',
+                                        textStyle: {
+                                            color: "#3D3D3D"
+                                        }
+                                    },
+                                    emphasis: {//对应的鼠标悬浮效果
+                                        show: true,
+                                        textStyle:{color:"#000000"}
+                                    }
+                                },
+                                itemStyle: {
+                                    normal: {
+                                        borderWidth: .5,//区域边框宽度
+                                        borderColor: '#009fe8',//区域边框颜色
+                                        areaColor:"#ffefd5",//区域颜色
+                                    },
+                                    emphasis: {
+                                        borderWidth: .5,
+                                        borderColor: '#4b0082',
+                                        areaColor:"#ffdead",
+                                    }
+                                },
+                                // data:[
+                                //     {name:'福建', selected:true}//福建为选中状态
+                                // ]
+                                data:placeinfo, //出行地信息
+                            }],
+                        };
+                        myChart.setOption(option)
+
                     })
-                  .catch(function (error) {
-                        console.log(error);
+                    .catch(function (error) {
+                        console.log("查询飞去哪出错:  "+error);
                     });
 
                 //图表区域显示
@@ -988,14 +866,10 @@ $(function() {
         created: function () {
             //获取城市信息 城市名+三字码
             axios.get("/cityList1").then(res => {
-                // console.log(res)
                 this.cities = res.data
             }).catch(function (error) {
                 console.log(error);
             })
-        },
-        components: {
-            place_result_box,
         },
         template: `
          <div class="data_table" id="preditc-place-box">
@@ -1035,11 +909,18 @@ $(function() {
                      round>搜索</el-button>
             </div>
             
-            <place_result_box
-                :startplace="startplace"
-                :date="date">
-            </place_result_box>
-         </div>
+            <!------------------构建地图图表---------------------->
+             <div id="place-result-box" class="data_table3">
+                <div class="result-title-box clearfix">
+                    <div><span>搜索结果</span></div>
+                    <el-input v-model='startplace' :placeholder='startplace'></el-input>
+                    <i class="el-icon-link icon2" style="margin:0px;line-height: 35px"></i>
+                    <el-input v-model='date' :placeholder='date' ></el-input>
+                </div>
+    
+                 <div ref="chinamap" style="height: 800px;width: 1000px;" id="china"></div>
+            </div>
+        </div>
         `
     })
 });

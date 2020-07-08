@@ -313,12 +313,6 @@ $(function () {
                 </div>
 
                 <div id="price-result-wrapper">
-                    <!------一年内价格 月份------->
-<!--                    <div id="all-result-wrapper">-->
-<!--                    &lt;!&ndash;-&#45;&#45;&#45;&#45;月份价格图表-&#45;&#45;&#45;&#45;&ndash;&gt;-->
-<!--                        <test id="all-result-test"></test>-->
-<!--                    </div>-->
-
                     <!------出行价格 日期------->
                     <div id="go-result-wrapper">
                         <div class="result-title-box clearfix">
