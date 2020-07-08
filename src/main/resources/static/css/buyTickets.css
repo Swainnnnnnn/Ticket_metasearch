@@ -1,31 +1,25 @@
 body{
-    /*width: 1500px;*/
     margin: 0px;
     background-color: #f3f4f8;
 }
-
 #ticket-app{
     width: 100%;
 }
-
 #ticket-header{
     width: 100%;
     height: 60px;
     margin: 0 auto;
     background-color: #003366;
 }
-
 /***************购买机票********************/
 #buy-tickets{
     margin-top: 20px;
 }
-
 .choiced-tickets{
     height: 80px;
     margin-top: 2px;
     background-color: white;
 }
-
 .choiced-title{
     float: left;
     height: 50px;
@@ -36,64 +30,43 @@ body{
     background-color: #E4E7ED;
     font-weight: bold;
 }
-
-.ch-company-icon{
-    float: left;
-    margin-left: 20px;
-    margin-top: 10px;
-}
-
 .choiced-flight-head{
     float: left;
-    margin-left: 20px;
-    margin-top: 25px;
+    margin-left: 30px;
+    margin-top: 30px;
 }
-
 .choiced-flight-time{
     float: left;
     margin-left: 100px;
     margin-top: 20px;
 }
-
-.choiced-depart-line{
+.choiced-line{
     float: left;
-    height: 2px;
     width: 80px;
-    background-color: #3399CC;
-    margin-top: 10px;
-    margin-bottom: 5px;
-    display: inline-block;
     margin-left: 50px;
     margin-right: 50px;
 }
-
-.choiced-arrive-info{
-    float: left;
-    margin-left: 20px;
+.choiced-company-icon{
+    margin-top: 20px;
 }
-
 .purchase-btn{
     margin-top: 20px;
 }
-
 .re-choice-btn{
     margin-top: 20px;
     margin-left: 200px;
 }
-
 /***********************内容部分****************************/
 #ticket-content{
     width: 80%;
     margin: 0 auto;
     margin-top: 20px;
 }
-
 #screening-bar{
     width: 100%;
     height: 100px;
     background-color: white;
 }
-
 #sort-bar{
     width: 100%;
     height: 40px;
@@ -104,12 +77,9 @@ body{
     margin-top: 30px;
     margin-left: 15px;
 }
-
 .input-con{
     width: 18%;
 }
-
-
 .search-btn{
     background-color: #3399CC;
     color: white;
@@ -117,7 +87,6 @@ body{
 .flight-type{
     width: 80px;
 }
-
 .menu{
     padding: 0;
     margin-left: 10px;
@@ -128,37 +97,28 @@ body{
     margin-right: 15px;
     padding-top: 8px;
 }
-
-
 .whiteColor{
     color: white;
 }
-
 .checked{
     color: black;
 }
-
 /************************展示机票部分***********************/
 #sort-result{
     width: 80%;
     margin: 0 auto;
-    /*height: 100px;*/
-    /*background-color: rebeccapurple;*/
 }
-
 #left-screening{
     width: 30%;
     background-color: white;
     float: left;
 }
-
 #tickets-bar{
     width: 68%;
     height: 200px;
     float: left;
     margin-left: 24px;
 }
-
 .left-screening-title{
     margin: 0;
     height: 35px;
@@ -166,91 +126,83 @@ body{
     padding-top: 10px;
     background-color: #E4E7ED;
 }
-
 .text-style-01{
     margin-left: 10px;
     font-size: 1.1em;
 }
-
-.to-line{
+.line{
     height: 2px;
-    width: 60px;
-    background-color: #3399CC;
-    margin-top: 0;
     margin-bottom: 5px;
+    background-color: #3399CC;
     display: inline-block;
+}
+.to-line{
+    width: 60px;
     margin-left: 10px;
 }
-
+.depart-line{
+    width: 80px;
+    margin-left: 30px;
+}
+.transit-line{
+    width: 40px;
+}
 .text-style-02{
     font-size: 0.8em;
     margin-left: 10px;
 }
-
 .text-style-03{
     font-size: 0.9em;
     font-weight: bold;
     text-align: center;
 }
-
 .text-style-04{
     font-size: 0.8em;
     text-align: center;
     margin-top: 5px;
 }
-
 .text-style-05{
     font-size: 1.1em;
     color: red;
 }
-
 .condition-message{
     background-color: #E4E7ED;
     height: 35px;
     padding-top: 10px;
 }
-
 .company-item{
     margin-left: 20px;
     margin-bottom: 10px;
 }
-
 .flight-company{
     margin-left: 20px;
     margin-bottom: 15px;
 }
-
 .flight-company-detail{
     margin-bottom: 20px;
 }
-
-
 .flight-head{
     float: left;
     width: 15%;
     margin-left: 30px;
 }
-
 .flight-item{
     height: 80px;
     margin-bottom: 20px;
     background-color: white;
     padding-top: 40px;
 }
-
 .flight-time{
     margin-left: 20px;
     float: left;
     width: 38%;
 }
-
 .company-icon{
     width: 38px;
     height: 38px;
     float: left;
     margin-left: 20px;
 }
-
 .flight-price{
     float: left;
     width: 10%;
@@ -263,26 +215,12 @@ body{
 .arrive-info{
     float: right;
 }
-
-.depart-line{
-    height: 2px;
-    width: 80px;
-    background-color: #3399CC;
-    margin-top: 0;
-    margin-bottom: 5px;
-    display: inline-block;
-    margin-left: 30px;
-}
-
 /********************alternative**************************************/
-
 .alternative{
     width: 100%;
     margin-top: 20px;
     margin-bottom: 100px;
-    /*background-color: #3399CC;*/
 }
-
 .transit-head{
     height: 30px;
     padding-top: 10px;
@@ -290,34 +228,19 @@ body{
     color: white;
     background-color: #3399CC;
  }
-
-.transit-line{
-    height: 2px;
-    width: 40px;
-    background-color: #3399CC;
-    margin-top: 0;
-    margin-bottom: 5px;
-    display: inline-block;
-}
-
 .first{
     margin-left: 30px;
 }
-
 .second{
     margin-left: 6px;
 }
-
 .middle-message{
     float: left;
 }
-
 .transit-place{
     padding-left: 66px;
     padding-top: 10px;
 }
-
-
 .clearfix{
     *zoom: 1;
 }
