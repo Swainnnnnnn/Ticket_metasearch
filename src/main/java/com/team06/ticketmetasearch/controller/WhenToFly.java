@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
@@ -31,24 +32,25 @@ public class WhenToFly {
         arrivalCityName="成都";*/
         departureMonth =departureMonth+"%" ;
 
-
+        System.out.println(departureCityName+arrivalCityName+departureMonth);
+        System.out.println("WhenToFly:");
        String querySQL = "SELECT departureDate , avg(price) price FROM  dwd_scheduledflight  where departureCityName= ?  and arrivalCityName = ?  and departureDate LIKE  ? group by departureDate order by departureDate ; ";
 
         List<Map<String, Object>> GoList = jdbcTemplate.queryForList(querySQL, departureCityName,arrivalCityName,departureMonth);
         System.out.println(GoList.toString());
-     
+
         List<Map<String, Object>> BackList = jdbcTemplate.queryForList(querySQL, arrivalCityName,departureCityName,departureMonth);
         System.out.println(BackList.toString());
         for (int i = 0; i < GoList.size(); i++) {
-            int backAndgo=0;
+            int backAndgo=0 ;
             for (int j = 0; j < BackList.size(); j++){
                 if ((String)GoList.get(i).get("departureDate")==(String)BackList.get(j).get("departureDate")){
-                     backAndgo= (int )GoList.get(i).get("price")+(int )BackList.get(j).get("price");
+                     backAndgo= ((BigDecimal )GoList.get(i).get("price")).intValue()+((BigDecimal )BackList.get(j).get("price")).intValue();
                      break;
                 }
             }
             if ( backAndgo==0){
-                backAndgo= (int )GoList.get(i).get("price");
+                backAndgo=((BigDecimal )GoList.get(i).get("price")).intValue();
             }
 
             GoList.get(i).put("price",backAndgo);
@@ -63,6 +65,7 @@ public class WhenToFly {
                                                     @RequestParam(value = "departureCity")String departureCity,
                                                     @RequestParam(value = "departureDate")String departureDate) throws SQLException {
        // PreparedStatement statement = null;
+        System.out.println(departureCity+departureDate);
         String querySQL= "SELECT arrivalCityName  ,min(price) price FROM dwd_scheduledflight where  departureCityName= ?  and  departureDate = ?   group by  arrivalCityName  order by arrivalCityName;";
         // String querySQL= "SELECT arrivalCityName  ,min(price) price FROM dwd_scheduledflight where  departureCityName= ?  and  departureDate = ?  order by arrivalCityName  group by  arrivalCityName;";
      /*   statement.setString(1,departureCity);

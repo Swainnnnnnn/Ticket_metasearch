@@ -243,7 +243,7 @@ $(function () {
                         <span style="float: left">{{ item.cityname}}</span>
                         <span style="float: right; color: #8492a6; font-size: 13px">{{ item.citytlc }}</span>
                     </el-option>
-                </el-select>
+                </el-select> 
     
                 <i class="el-icon-sort search-box-div transformi" ></i>
     

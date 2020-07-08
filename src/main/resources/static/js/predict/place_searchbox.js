@@ -965,20 +965,20 @@ $(function() {
                 }
 
                 //输入查询数据正确 开始进行数据分析 post
-                this.date = getyear + '-' + month + '-' + getday
+                this.date = getyear + '/' + month + '/' + getday
                 console.log(this.date)
-                // let param  = new URLSearchParams()
-                // param.append('departureCityName','重庆')
-                // param.append('arrivalCityName','北京')
+                  let param  = new URLSearchParams()
+                 param.append('departureCity',this.startplace)
+                  param.append('departureDate', this.date)
 
-                // console.log("输入查询数据正确 开始进行数据分析 post")
-                // axios.post('/Predict/WhenToFly', param)
-                //     .then(function (response) {
-                //         console.log(response);
-                //     })
-                //     .catch(function (error) {
-                //         console.log(error);
-                //     });
+                console.log("输入查询数据正确 开始进行数据分析 post")
+                axios.post('/Predict/WhereToFly', param)
+                     .then(function (response) {
+                      console.log(response);
+                    })
+                  .catch(function (error) {
+                        console.log(error);
+                    });
 
                 //图表区域显示
                 $('.data_table3').removeClass('data_table_selected3')
