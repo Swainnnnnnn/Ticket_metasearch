@@ -194,14 +194,14 @@ $(function () {
                 param.append('departureCityName','重庆')
                 param.append('arrivalCityName','北京')
 
-                // console.log("输入查询数据正确 开始进行数据分析 post")
-                // axios.post('/Predict/WhenToFly', param)
-                //     .then(function (response) {
-                //         console.log(response);
-                //     })
-                //     .catch(function (error) {
-                //         console.log(error);
-                //     });
+                  console.log("输入查询数据正确 开始进行数据分析 post")
+                 axios.post('/Predict/WhenToFly', param)
+                    .then(function (response) {
+                         console.log(response);
+                    })
+                  .catch(function (error) {
+                       console.log(error);
+                   });
 
                 //图表区域显示
                 $('.data_table2').removeClass('data_table_selected2')

@@ -23,12 +23,12 @@ class TicketMetasearchApplicationTests {
 
 
         String departureCity ="重庆";
-        String departureDate = "2020/8/19";
+        String departureDate = "2020/10%";
        String arrivalCityName="北京";
          String querySQL= "SELECT arrivalCityName  ,min(price) price FROM dwd_scheduledflight where  departureCityName= ?  and  departureDate = ?   group by  arrivalCityName  order by arrivalCityName;";
-        String querySQL1="SELECT departureDate , avg(price) price FROM  dwd_scheduledflight  where departureCityName= ?  and arrivalCityName = ? group by departureDate order by departureDate ;";
-
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(querySQL1,departureCity,arrivalCityName );
+        //String querySQL1="SELECT departureDate , departureCityName, departureDate FROM  dwd_scheduledflight  where departureCityName= ?  and arrivalCityName = ? group by departureDate order by departureDate ;";
+        String querySQL1 = "SELECT departureDate , avg(price) price FROM  dwd_scheduledflight  where departureCityName= ?  and arrivalCityName = ?  and departureDate LIKE  ? group by departureDate order by departureDate ; ";
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(querySQL1 ,departureCity,arrivalCityName,departureDate);
         System.out.println(list.toString());
         
     }
