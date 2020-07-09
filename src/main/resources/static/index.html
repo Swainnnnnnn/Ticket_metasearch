@@ -19,15 +19,15 @@
                     <el-option label="单程" :value="0"></el-option>
                     <el-option label="往返" :value="1"></el-option>
                 </el-select>
-                <el-select class="condition" v-model="departPlace" placeholder="选择出发地">
+                <el-select class="condition length-control" v-model="departPlace" placeholder="选择出发地">
                     <el-option v-for="item in cities" :keys="item.cityname" :label="item.cityname" :value="item.cityname"></el-option>
                 </el-select>
                 </el-input>
-                <el-select class="condition" v-model="destination" placeholder="选择目的地">
+                <el-select class="condition length-control" v-model="destination" placeholder="选择目的地">
                     <el-option v-for="item in cities" :label="item.cityname" :value="item.cityname"></el-option>
                 </el-select>
-                <el-date-picker class="condition" v-model="departTime" placeholder="选择出发日期" value-format="yyyy-M-d" format="yyyy-M-d"></el-date-picker>
-                <el-date-picker class="condition" v-model="arriveTime" placeholder="选择返程日期" value-format="yyyy-M-d" format="yyyy-M-d"></el-date-picker>
+                <el-date-picker class="condition length-control" v-model="departTime" placeholder="选择出发日期" value-format="yyyy-M-d" format="yyyy-M-d"></el-date-picker>
+                <el-date-picker class="condition length-control" v-model="arriveTime" placeholder="选择返程日期" value-format="yyyy-M-d" format="yyyy-M-d"></el-date-picker>
                 <el-button class="condition search-btn" @click.native="searchTickets">搜索</el-button>
             </div>
             <!-- 购买的机票-->

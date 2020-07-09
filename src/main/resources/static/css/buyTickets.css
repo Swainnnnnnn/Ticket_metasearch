@@ -54,7 +54,7 @@ body{
 }
 .re-choice-btn{
     margin-top: 20px;
-    margin-left: 200px;
+    margin-left: 10%;
 }
 /***********************内容部分****************************/
 #ticket-content{
@@ -66,6 +66,9 @@ body{
     width: 100%;
     height: 100px;
     background-color: white;
+}
+.length-control{
+    width: 15%;
 }
 #sort-bar{
     width: 100%;
@@ -117,7 +120,7 @@ body{
     width: 68%;
     height: 200px;
     float: left;
-    margin-left: 24px;
+    margin-left: 2%;
 }
 .left-screening-title{
     margin: 0;
